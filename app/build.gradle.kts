@@ -8,6 +8,9 @@ plugins {
   alias(libs.plugins.google.services)
 }
 
+// ملف debug.keystore المخصص (موجود في AI Studio، وغير موجود غالباً على GitHub)
+val customDebugKeystore = file("${rootDir}/debug.keystore")
+
 android {
   namespace = "com.example"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
@@ -22,8 +25,6 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
-  // Do not remove or modify these signingConfigs. They are necessary for building, installing,
-  // and updating Android apps in AI Studio.
   signingConfigs {
     create("release") {
       val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
@@ -33,7 +34,7 @@ android {
       keyPassword = System.getenv("KEY_PASSWORD")
     }
     create("debugConfig") {
-      storeFile = file("${rootDir}/debug.keystore")
+      storeFile = customDebugKeystore
       storePassword = "android"
       keyAlias = "androiddebugkey"
       keyPassword = "android"
@@ -45,14 +46,17 @@ android {
       isCrunchPngs = false
       isMinifyEnabled = false
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-      // Do not remove or modify this signingConfig assignment. It is necessary for Android apps in
-      // AI Studio.
       signingConfig = signingConfigs.getByName("release")
     }
     debug {
-      // Do not remove or modify this signingConfig assignment. It is necessary for Android apps in
-      // AI Studio.
-      signingConfig = signingConfigs.getByName("debugConfig")
+      // إذا وُجد debug.keystore نستخدمه، وإلا نستخدم مفتاح الـ debug الافتراضي
+      // الذي ينشئه Android Gradle Plugin تلقائياً (يحل خطأ validateSigningDebug).
+      signingConfig =
+        if (customDebugKeystore.exists()) {
+          signingConfigs.getByName("debugConfig")
+        } else {
+          signingConfigs.getByName("debug")
+        }
     }
   }
   compileOptions {
