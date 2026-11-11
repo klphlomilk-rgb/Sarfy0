@@ -1,0 +1,2 @@
+# Exclude all files from GitHub's language statistics.
+* linguist-detectable=false
