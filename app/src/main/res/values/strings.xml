@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">صرفي</string>
+    <string name="app_tagline">تتبع المصاريف فائق السرعة</string>
+    <string name="today_spending">صرف اليوم</string>
+    <string name="week_spending">إجمالي الأسبوع</string>
+    <string name="month_spending">إجمالي الشهر</string>
+    <string name="enter_amount">0</string>
+    <string name="save_expense">تسجيل المصروف</string>
+    <string name="category_food">طعام</string>
+    <string name="category_transport">مواصلات</string>
+    <string name="category_bills">فواتير</string>
+    <string name="category_entertainment">ترفيه</string>
+    <string name="category_other">أخرى</string>
+    <string name="recent_expenses">سجل العمليات الأخير</string>
+    <string name="no_expenses_yet">لا توجد مصاريف مسجلة حتى الآن</string>
+    <string name="support_button_label">دعم المطور والتفعيل ($0.5)</string>
+    <string name="support_dialog_title">دعم وتطوير صرفي</string>
+    <string name="support_dialog_desc">هذا التطبيق مجاني بالكامل وخالٍ من الإعلانات. هذا النصف دولار ($0.5 USDT) هو لفتة دعم لطيفة منك لتطوير التطبيق!</string>
+    <string name="honor_activate_button">لقد قمت بالدفع وتفعيل الميزات</string>
+    <string name="activated_badge">النسخة مفعلة بالكامل ✓</string>
+    <string name="export_csv">تصدير تقرير CSV</string>
+    <string name="theme_selection">تخصيص الثيم</string>
+    <string name="currency_settings">العملة الافتراضية</string>
+</resources>

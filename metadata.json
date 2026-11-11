@@ -1,0 +1,6 @@
+{
+  "name": "صرفي",
+  "description": "تطبيق مصاريف يومية فائق السرعة وخفيف جداً، يعمل 100% بدون إنترنت (Zero-Data)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
