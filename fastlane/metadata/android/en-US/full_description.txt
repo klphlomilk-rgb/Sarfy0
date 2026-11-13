@@ -1,0 +1,12 @@
+Sarfy is a simple, privacy-minded expense tracker that helps you stay on top of everyday spending. Record an expense in seconds, review your spending at a glance, and keep your budget organized in one place.
+
+FEATURES
+• Log expenses with an amount, category, and optional note.
+• Review daily, weekly, and monthly totals, recent transactions, and a breakdown by category.
+• Set a monthly spending limit and follow your progress, remaining budget, or any amount over the limit.
+• Choose a currency symbol and personalize the app with color themes.
+• Use the interface in Arabic or English, with right-to-left layout for Arabic.
+• Store expense records locally on your device for offline access.
+• Export a CSV report for use in spreadsheet apps (available after in-app feature activation).
+
+Sarfy is designed for quick, straightforward personal expense tracking. It is not a banking app and does not connect to financial accounts.

@@ -1,0 +1,6 @@
+Initial release of Sarfy 1.0.
+• Record and organize expenses by category.
+• View daily, weekly, and monthly spending summaries.
+• Set and track a monthly budget.
+• Customize the currency, color theme, and language.
+• Export expense records as CSV after feature activation.
