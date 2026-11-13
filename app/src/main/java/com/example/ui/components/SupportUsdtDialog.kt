@@ -3,8 +3,10 @@ package com.example.ui.components
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color as AndroidColor
 import android.widget.Toast
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,6 +38,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,11 +46,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +58,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.ui.util.AppStrings
 import com.example.ui.viewmodel.ExpenseViewModel
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
 
 @Composable
 fun SupportUsdtDialog(
@@ -331,60 +334,49 @@ private fun CryptoQrCanvas(
     dataString: String,
     modifier: Modifier = Modifier
 ) {
-    val matrixSize = 25
-    val hash = dataString.hashCode()
+    var bitmap by remember(dataString) { mutableStateOf<Bitmap?>(null) }
 
-    Canvas(modifier = modifier) {
-        val cellSize = size.width / matrixSize
-        val qrColor = Color(0xFF1E1E1E)
+    LaunchedEffect(dataString) {
+        bitmap = generateQrBitmap(dataString, 512)
+    }
 
-        // Draw Corner Finder Pattern (Top-Left)
-        drawFinderPattern(0f, 0f, cellSize, qrColor)
-        // Top-Right
-        drawFinderPattern((matrixSize - 7) * cellSize, 0f, cellSize, qrColor)
-        // Bottom-Left
-        drawFinderPattern(0f, (matrixSize - 7) * cellSize, cellSize, qrColor)
-
-        // Draw Matrix modules based on dataString
-        for (row in 0 until matrixSize) {
-            for (col in 0 until matrixSize) {
-                val inTopLeft = row < 7 && col < 7
-                val inTopRight = row < 7 && col >= matrixSize - 7
-                val inBottomLeft = row >= matrixSize - 7 && col < 7
-                if (!inTopLeft && !inTopRight && !inBottomLeft) {
-                    val pseudoRandomBit = ((row * 31 + col * 17 + hash) % 3) == 0 ||
-                            ((row + col) % 2 == 0 && (row * col + hash) % 5 == 0)
-                    if (pseudoRandomBit) {
-                        drawRoundRect(
-                            color = qrColor,
-                            topLeft = Offset(col * cellSize, row * cellSize),
-                            size = Size(cellSize * 0.95f, cellSize * 0.95f),
-                            cornerRadius = CornerRadius(2f, 2f)
-                        )
-                    }
-                }
-            }
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        bitmap?.let { qrBitmap ->
+            Image(
+                bitmap = qrBitmap.asImageBitmap(),
+                contentDescription = "Wallet address QR code",
+                modifier = Modifier.matchParentSize()
+            )
         }
     }
 }
 
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawFinderPattern(
-    x: Float,
-    y: Float,
-    cellSize: Float,
-    color: Color
-) {
-    drawRoundRect(
-        color = color,
-        topLeft = Offset(x, y),
-        size = Size(7 * cellSize, 7 * cellSize),
-        cornerRadius = CornerRadius(cellSize, cellSize),
-        style = Stroke(width = cellSize)
-    )
-    drawRoundRect(
-        color = color,
-        topLeft = Offset(x + 2 * cellSize, y + 2 * cellSize),
-        size = Size(3 * cellSize, 3 * cellSize),
-        cornerRadius = CornerRadius(cellSize * 0.5f, cellSize * 0.5f)
-    )
+private fun generateQrBitmap(data: String, size: Int): Bitmap? {
+    if (data.isBlank()) {
+        return null
+    }
+
+    return try {
+        val matrix = MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, size, size)
+        val width = matrix.width
+        val height = matrix.height
+        val pixels = IntArray(width * height)
+
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                pixels[y * width + x] = if (matrix[x, y]) AndroidColor.BLACK else AndroidColor.WHITE
+            }
+        }
+
+        Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
+            setPixels(pixels, 0, width, 0, 0, width, height)
+        }
+    } catch (_: WriterException) {
+        null
+    }
 }
