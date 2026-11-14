@@ -7,6 +7,6 @@ FEATURES
 • Choose a currency symbol and personalize the app with color themes.
 • Use the interface in Arabic or English, with right-to-left layout for Arabic.
 • Store expense records locally on your device for offline access.
-• Export a CSV report for use in spreadsheet apps (available after in-app feature activation).
+• Export a CSV report for use in spreadsheet apps.
 
 Sarfy is designed for quick, straightforward personal expense tracking. It is not a banking app and does not connect to financial accounts.
