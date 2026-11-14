@@ -25,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.TrackChanges
 import androidx.compose.material.icons.outlined.FileDownload
@@ -97,7 +96,6 @@ fun SettingsDialog(
                     .padding(20.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                // Header
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -122,7 +120,6 @@ fun SettingsDialog(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Section 1: Language Selection (System Default / Arabic / English)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Language,
@@ -175,7 +172,6 @@ fun SettingsDialog(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Section 2: Monthly Budget Target Setting
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -224,7 +220,6 @@ fun SettingsDialog(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Section 3: Currency Selection
                 Text(
                     text = strings.currencySetting,
                     style = MaterialTheme.typography.labelLarge,
@@ -265,7 +260,6 @@ fun SettingsDialog(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Section 4: Color Theme Selection
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -273,7 +267,7 @@ fun SettingsDialog(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = Icons.Default.Palette,
+                            imageVector = androidx.compose.material.icons.filled.Palette,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(18.dp)
@@ -284,31 +278,6 @@ fun SettingsDialog(
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    }
-
-                    if (!isProActivated) {
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                                .clickable { onOpenSupportDialog() }
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Default.Lock,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(14.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = "$0.5",
-                                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold),
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                        }
                     }
                 }
 
@@ -322,13 +291,7 @@ fun SettingsDialog(
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else MaterialTheme.colorScheme.surfaceContainerHigh)
-                                .clickable {
-                                    if (isProActivated || paletteId == "EMERALD") {
-                                        onThemeSelect(paletteId)
-                                    } else {
-                                        onOpenSupportDialog()
-                                    }
-                                }
+                                .clickable { onThemeSelect(paletteId) }
                                 .padding(horizontal = 14.dp, vertical = 10.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -348,13 +311,6 @@ fun SettingsDialog(
                                     tint = MaterialTheme.colorScheme.primary,
                                     modifier = Modifier.size(18.dp)
                                 )
-                            } else if (!isProActivated && paletteId != "EMERALD") {
-                                Icon(
-                                    imageVector = Icons.Default.Lock,
-                                    contentDescription = "Locked",
-                                    tint = MaterialTheme.colorScheme.outline,
-                                    modifier = Modifier.size(16.dp)
-                                )
                             }
                         }
                     }
@@ -364,7 +320,6 @@ fun SettingsDialog(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Section 5: CSV Export
                 Text(
                     text = strings.exportSetting,
                     style = MaterialTheme.typography.labelLarge,
@@ -374,30 +329,25 @@ fun SettingsDialog(
 
                 OutlinedButton(
                     onClick = {
-                        if (isProActivated) {
-                            shareCsv(context, onGetCsvContent(), strings.csvChooserTitle, strings.csvSubject, strings.noExpensesToExport)
-                        } else {
-                            onOpenSupportDialog()
-                        }
+                        shareCsv(context, onGetCsvContent(), strings.csvChooserTitle, strings.csvSubject, strings.noExpensesToExport)
                     },
                     shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
-                        imageVector = if (isProActivated) Icons.Outlined.FileDownload else Icons.Default.Lock,
+                        imageVector = Icons.Outlined.FileDownload,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = if (isProActivated) strings.exportButtonPro else strings.exportButtonLocked,
+                        text = strings.exportButtonPro,
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Zero-Data Privacy Badge
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
