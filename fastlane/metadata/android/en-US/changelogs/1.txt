@@ -3,4 +3,4 @@ Initial release of Sarfy 1.0.
 • View daily, weekly, and monthly spending summaries.
 • Set and track a monthly budget.
 • Customize the currency, color theme, and language.
-• Export expense records as CSV after feature activation.
+• Export expense records as CSV; all app features are available without payment.

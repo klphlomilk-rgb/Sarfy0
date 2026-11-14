@@ -1,0 +1,31 @@
+Categories:
+  - Money
+License: GPL-3.0-only
+AuthorName: klphlomilk-rgb
+SourceCode: https://github.com/klphlomilk-rgb/Sarfy0
+IssueTracker: https://github.com/klphlomilk-rgb/Sarfy0/issues
+RepoType: git
+Repo: https://github.com/klphlomilk-rgb/Sarfy0.git
+
+Name: Sarfy
+Summary: Offline expense tracking and monthly budgeting
+Description: |
+  Sarfy is a privacy-minded expense tracker for recording expenses,
+  reviewing spending summaries, setting a monthly budget, choosing a
+  currency and color theme, and exporting expense records as CSV. Data
+  is stored locally for offline use. The application is available in
+  Arabic and English. All features are available without payment; an
+  optional voluntary donation is offered in the app.
+
+CurrentVersion: '1.0'
+CurrentVersionCode: 1
+
+Builds:
+  - versionName: '1.0'
+    versionCode: 1
+    commit: v1.0
+    gradle:
+      - yes
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
