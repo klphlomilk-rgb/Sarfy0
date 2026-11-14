@@ -1,3 +1,0 @@
-App icon and store screenshots belong in this directory. Add a square PNG icon named `icon.png` (512 × 512 px is a suitable store asset size). Add genuine screenshots of the app to `phoneScreenshots/`, keeping their original device aspect ratio and avoiding extra promotional framing.
-
-The project includes launcher icon resources under `app/src/main/res/mipmap-xxxhdpi/`; this metadata directory does not yet contain a copied PNG icon.
